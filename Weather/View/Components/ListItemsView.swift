@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct ListItemsView: View {
+    var weatherData: WeatherModel
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack{
+            HStack(alignment: .center){
+                 Text(weatherData.city)
+                Spacer()
+                HStack{
+                    Text(String(format: "%.2f°", weatherData.temperature))
+                        .padding(10)
+                         Image(systemName: WeatherAssets.weatherIcon(weather_description: weatherData.weather_description))
+                        .padding(10)
+                        .symbolRenderingMode(.multicolor)
+                     }
+             }
+            
+            .frame(height: 100)
+            .foregroundStyle(.white)
+            .font(.title2)
+            
+            
+        }
+        .font(.title)
+        .foregroundStyle(.white)
     }
-}
-
-#Preview {
-    ListItemsView()
+    
+    
 }

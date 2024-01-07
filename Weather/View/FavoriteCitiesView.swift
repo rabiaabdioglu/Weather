@@ -8,11 +8,41 @@
 import SwiftUI
 
 struct FavoriteCitiesView: View {
+    @ObservedObject var viewModel = WeatherViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            VStack {
+                List {
+                    ForEach(viewModel.favoriteCities) { city in
+                        NavigationLink(destination: WeatherDetailsView(weatherData: city.weatherData)) {
+                            Text("\(city.name), \(city.country)")
+                        }
+                    }
+                    .onDelete(perform: deleteFavoriteCity)
+                }
+                
+                Button(action: {
+                    // Show a modal or navigate to another view to add new favorite city
+                }) {
+                    Text("Add Favorite City")
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                }
+            }
+            .navigationBarTitle("Favorite Cities")
+        }
+    }
+    
+    private func deleteFavoriteCity(at offsets: IndexSet) {
+        viewModel.favoriteCities.remove(atOffsets: offsets)
     }
 }
 
-#Preview {
-    FavoriteCitiesView()
+struct FavoriteCitiesView_Previews: PreviewProvider {
+    static var previews: some View {
+        FavoriteCitiesView(viewModel: WeatherViewModel())
+    }
 }

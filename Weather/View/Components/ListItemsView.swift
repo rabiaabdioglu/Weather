@@ -13,7 +13,13 @@ struct ListItemsView: View {
     var body: some View {
         VStack{
             HStack(alignment: .center){
-                 Text(weatherData.city)
+                VStack(alignment: .leading){
+                    Text(weatherData.city)
+                        .fontWeight(.semibold)
+                    Text(weatherData.country)
+                        .font(.footnote)
+                        .fontWeight(.light)
+                }
                 Spacer()
                 HStack{
                     Text(String(format: "%.2f°", weatherData.temperature))

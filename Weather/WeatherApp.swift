@@ -12,7 +12,14 @@ struct WeatherApp: App {
     
     var body: some Scene {
         WindowGroup {
-            WeatherView()
+            HomeView()
+                .onAppear(){
+                    UITabBar.appearance().backgroundColor = .white
+                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .separator
+                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .white
+                    
+                }
         }
+        
     }
 }

@@ -42,7 +42,7 @@ class WeatherAssets{
 
 extension Color {
     init(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        let hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         var rgb: UInt64 = 0
         
         Scanner(string: hexSanitized).scanHexInt64(&rgb)

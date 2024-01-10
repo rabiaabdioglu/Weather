@@ -16,7 +16,7 @@ struct Forecast :  Codable , Hashable {
     var wind_speed: Double
 }
 
-struct WeatherModel : Identifiable, Codable{
+struct WeatherModel : Codable ,Hashable {
     var id: Int
     var city: String
     var country: String

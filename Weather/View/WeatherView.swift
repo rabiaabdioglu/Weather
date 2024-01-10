@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct WeatherView: View {
+    // Observable object to manage weather data
     @ObservedObject var viewModel = WeatherViewModel()
+    // State variable to keep track of the selected tab
     @State private var selectedTab: Int = 0
-    // Search text for the list
-    @State  var searchText = ""
-        
+    // Search text for filtering the list
+    @State var searchText = ""
+    // Computed property to filter weather data based on search text
     var filteredTasks: [WeatherModel] {
         let lowercasedSearchText: String
         
@@ -20,9 +22,7 @@ struct WeatherView: View {
         
         guard !lowercasedSearchText.isEmpty else { return viewModel.weatherData }
         
-        
         print(lowercasedSearchText)
-        
         
         return viewModel.weatherData.filter { item in
             let propertiesToSearch: [String?] = [
@@ -31,31 +31,69 @@ struct WeatherView: View {
             return propertiesToSearch.compactMap { $0?.lowercased() }.contains { $0.contains(lowercasedSearchText) }
         }
     }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
-//                Text("Weather App")
-//                    .font(.title2)
-//                    .padding(.all, 10.0)
-                List {
-                    ForEach(filteredTasks, id: \.id) { weather in
-                        NavigationLink(destination: WeatherDetailsView(weatherData: weather)) {
-                            ListItemsView(weatherData: weather)
-                                .background(Color.clear)
-                                .listRowBackground(Color.clear)
-                        }
-                        .padding(15)
-                        .buttonStyle(PlainButtonStyle())
+                if filteredTasks.count == 0{
+                    VStack{
+                        Spacer()
+                        Text("Please make sure you have an internet connection .")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal)
+                        Spacer()
                     }
-                    .background(.separator)
-                    .listRowSeparator(.hidden)
-                    .background(Color.clear)
-                    .listRowBackground(Color.clear)
                 }
-                .listStyle(PlainListStyle())
-                .scrollContentBackground(.hidden)
+                
+                // List of weather data with navigation links
+     
+                ScrollViewReader { scrollView in
+                    ZStack(alignment: .bottomTrailing){
+                        List {
+                            ForEach(filteredTasks, id: \.self) { weather in
+                                NavigationLink(destination: WeatherDetailsView(weatherData: weather)) {
+                                    ListItemsView(weatherData: weather)
+                                        .background(Color.clear)
+                                        .listRowBackground(Color.clear)
+                                        .id(weather.id)
+                                }
+                                .padding(15)
+                                .buttonStyle(PlainButtonStyle())
+                                .onAppear {
+                                    if viewModel.weatherData.last == weather {
+                                        viewModel.fetchData()
+                                    }
+                                }
+                            }
+                            .background(.separator)
+                            .listRowSeparator(.hidden)
+                            .background(Color.clear)
+                            .listRowBackground(Color.clear)
+                        }
+                        .listStyle(PlainListStyle())
+                        .scrollContentBackground(.hidden)
+                        
+                        if filteredTasks.count != 0{
+                            // Scroll to Top Button
+                            Button(action: {
+                                
+                                scrollView.scrollTo(filteredTasks.first!, anchor: .bottom)
+                            }) {
+                                Image(systemName: "arrow.up.circle.fill")
+                                    .resizable()
+                                    .frame(width: 32, height: 32)
+                                    .foregroundColor(.white)
+                            }
+                            .background(Color.secondary)
+                            .clipShape(Circle())
+                            .padding(20)
+                        }}
+                }
+                
             }
             .onAppear {
+                // Fetch weather data when the view appears
                 viewModel.fetchData()
             }
             .background(
@@ -65,19 +103,14 @@ struct WeatherView: View {
                     .edgesIgnoringSafeArea(.all)
             )
             .navigationBarTitle(Text(""), displayMode: .inline)
-            
         }
         .tint(.white)
         .searchable(text: $searchText, placement: .toolbar, prompt: "Search City")
         .disableAutocorrection(true)
         .foregroundColor(.white)
-        .toolbarBackground(.red, for: .navigationBar)
-        
     }
 }
-
 
 #Preview {
     WeatherView()
 }
-

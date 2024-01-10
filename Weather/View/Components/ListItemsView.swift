@@ -19,6 +19,7 @@ struct ListItemsView: View {
                     Text(weatherData.country)
                         .font(.footnote)
                         .fontWeight(.light)
+                    
                 }
                 Spacer()
                 HStack{
@@ -38,6 +39,7 @@ struct ListItemsView: View {
         }
         .font(.title)
         .foregroundStyle(.white)
+        
     }
     
     

@@ -9,40 +9,63 @@ import SwiftUI
 
 struct FavoriteCitiesView: View {
     @ObservedObject var viewModel = WeatherViewModel()
-    
+
     var body: some View {
         NavigationView {
-            VStack {
-                List {
-                    ForEach(viewModel.favoriteCities) { city in
-                        NavigationLink(destination: WeatherDetailsView(weatherData: city.weatherData)) {
-                            Text("\(city.name), \(city.country)")
-                        }
-                    }
-                    .onDelete(perform: deleteFavoriteCity)
-                }
-                
-                Button(action: {
-                    // Show a modal or navigate to another view to add new favorite city
-                }) {
-                    Text("Add Favorite City")
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
+            
+            if viewModel.favoriteCities.count == 0{
+                VStack{
+                    Spacer()
+                    Text("There are no cities at all..")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .padding(.horizontal)
+                    Spacer()
                 }
             }
-            .navigationBarTitle("Favorite Cities")
+            
+            
+            
+            VStack(alignment: .center) {
+                Text("Favorite Cities")
+                    .font(.title2)
+                    .padding(.all, 10.0)
+                List {
+                    ForEach(viewModel.favoriteCities) { favCity in
+                        NavigationLink(destination: WeatherDetailsView(weatherData: favCity.weatherData)) {
+                            ListItemsView(weatherData: favCity.weatherData)
+                                .background(Color.clear)
+                                .listRowBackground(Color.clear)
+                        }
+                        .padding(15)
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                    .background(.separator)
+                    .listRowSeparator(.hidden)
+                    .background(Color.clear)
+                    .listRowBackground(Color.clear)
+                }
+                .listStyle(PlainListStyle())
+                .scrollContentBackground(.hidden)
+            
+            }
+            .onAppear(){
+                viewModel.loadFavoriteCities()
+            }
+            .background(
+                Image("cloudBG")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .edgesIgnoringSafeArea(.all)
+            )
+            .navigationBarTitle(Text(""), displayMode: .inline)
+            
         }
+        .tint(.white)
+        .foregroundColor(.white)
+        
+       
     }
-    
-    private func deleteFavoriteCity(at offsets: IndexSet) {
-        viewModel.favoriteCities.remove(atOffsets: offsets)
-    }
-}
 
-struct FavoriteCitiesView_Previews: PreviewProvider {
-    static var previews: some View {
-        FavoriteCitiesView(viewModel: WeatherViewModel())
-    }
+  
 }

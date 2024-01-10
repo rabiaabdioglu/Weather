@@ -11,8 +11,6 @@ import SwiftUI
 
 
 class WeatherAssets{
-    
-    
     static func weatherIcon(weather_description : String) -> String {
         switch weather_description.lowercased() {
         case "sunny":

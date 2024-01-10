@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct FavoriteCity: Identifiable {
-    let id = UUID()
+struct FavoriteCity: Identifiable , Encodable ,Decodable {
+    var id = UUID()
     let name: String
     let country: String
     let weatherData: WeatherModel

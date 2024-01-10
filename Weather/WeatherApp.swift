@@ -15,8 +15,8 @@ struct WeatherApp: App {
             HomeView()
                 .onAppear(){
                     UITabBar.appearance().backgroundColor = .white
-                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .separator
-                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .white
+                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).backgroundColor = .white
+                    UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).tintColor = .lightGray
                     
                 }
         }

@@ -12,24 +12,32 @@ struct FavoriteCitiesView: View {
 
     var body: some View {
         NavigationView {
-            
-            if viewModel.favoriteCities.count == 0{
-                VStack{
-                    Spacer()
-                    Text("There are no cities at all..")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .padding(.horizontal)
-                    Spacer()
-                }
-            }
-            
+    
             
             
             VStack(alignment: .center) {
+                
+                
+                
                 Text("Favorite Cities")
                     .font(.title2)
                     .padding(.all, 10.0)
+                
+                
+                
+                if viewModel.favoriteCities.count == 0{
+                    VStack{
+                        Spacer()
+                        Text("There's nothing here..")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal)
+                        Spacer()
+                    }
+                }
+                
+                
+                
                 List {
                     ForEach(viewModel.favoriteCities) { favCity in
                         NavigationLink(destination: WeatherDetailsView(weatherData: favCity.weatherData)) {

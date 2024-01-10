@@ -35,13 +35,14 @@ struct WeatherView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
-                if filteredTasks.count == 0{
+                if viewModel.weatherData.count == 0{
                     VStack{
                         Spacer()
                         Text("Please make sure you have an internet connection .")
                             .font(.headline)
                             .fontWeight(.semibold)
                             .padding(.horizontal)
+                            .foregroundColor(.white)
                         Spacer()
                     }
                 }
@@ -107,7 +108,7 @@ struct WeatherView: View {
         .tint(.white)
         .searchable(text: $searchText, placement: .toolbar, prompt: "Search City")
         .disableAutocorrection(true)
-        .foregroundColor(.white)
+        .foregroundColor(.gray)
     }
 }
 

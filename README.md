@@ -8,16 +8,16 @@ Bu iOS uygulaması, hava durumu bilgilerini gösteren basit bir hava durumu uygu
 - Favori şehirleri ekleyip çıkarabilme.
 - Hava durumu tahminlerini inceleme.
 - Pagination
-- Internet bağlantısı kontrolü (Alamofire)
+- Internet bağlantısı kontrolü 
 - Çevrimdışı kullanım için verileri dosyalama
-- MVVM
-- SwiftUI
+
   
 
 ## Kullanılan Teknolojiler
 
 - [SwiftUI](https://developer.apple.com/xcode/swiftui/)
-- [Alamofire](https://github.com/Alamofire/Alamofire) - A network library for Swift.
+- [Alamofire](https://github.com/Alamofire/Alamofire) 
+- MVVM
 
 
 
